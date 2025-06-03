@@ -9,7 +9,6 @@ const mqtt = require('mqtt');
 const bcrypt = require('bcryptjs');
 const app = express();
 
-
 // Load Mongoose models
 const User = require('./models/User');
 const TempData = require('./models/TempData');
@@ -38,6 +37,8 @@ app.use(cors({
   },
   credentials: true,
 }));
+app.use(express.json());
+
 
 
 // Connect to MongoDB
