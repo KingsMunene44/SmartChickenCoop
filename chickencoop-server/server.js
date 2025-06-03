@@ -7,6 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const mqtt = require('mqtt');
 const bcrypt = require('bcryptjs');
+const app = express();
 
 
 // Load Mongoose models
