@@ -24,13 +24,21 @@ const SalesLog = require('./models/SalesLog');
 
 // Express app setup
 
-const corsOptions = {
-  origin: 'https://chickencoop-app.up.railway.app', // React App domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // If you're using cookies or authorization headers
-};
+const allowedOrigins = [
+  "https://chickencoop-app.up.railway.app",
+];
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -105,15 +113,6 @@ mqttClient.on('message', async (topic, message) => {
   } catch (err) {
     console.error('❌ DB Save Error:', err);
   }
-});
-
-//fallback headers
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://chickencoop-app.up.railway.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
 });
 
 //REST API Routes
