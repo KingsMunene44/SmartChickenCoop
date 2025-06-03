@@ -22,7 +22,6 @@ const CoopStats = require('./models/CoopStats');
 const SalesLog = require('./models/SalesLog');
 
 // Express app setup
-const cors = require("cors");
 
 const allowedOrigins = [
   "https://chickencoop-app.up.railway.app",
