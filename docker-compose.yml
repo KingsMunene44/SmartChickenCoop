@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./chickencoop-server
+    container_name: chickencoop-server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./chickencoop-server/.env
+    networks:
+      - coopnet
+    depends_on:
+      - mosquitto
+
+  app:
+    build:
+      context: ./chickencoop-app
+    container_name: chickencoop-app
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    environment:
+      - VITE_API_URL=http://server:5000
+      - VITE_MQTT_BROKER=ws://mosquitto:9001
+    networks:
+      - coopnet
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    restart: always
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+    networks:
+      - coopnet
+
+networks:
+  coopnet:
+    driver: bridge

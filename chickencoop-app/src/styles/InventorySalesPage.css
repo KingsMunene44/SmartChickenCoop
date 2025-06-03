@@ -1,0 +1,14 @@
+/* src/styles/input.css */
+
+/* Removes spinner arrows in Chrome, Edge, Safari */
+.input-no-spinner::-webkit-outer-spin-button,
+.input-no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Removes spinner arrows in Firefox */
+.input-no-spinner {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
