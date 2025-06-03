@@ -22,11 +22,23 @@ const CoopStats = require('./models/CoopStats');
 const SalesLog = require('./models/SalesLog');
 
 // Express app setup
-const app = express();
-app.use(cors({origin: 'http://192.168.100.34:5173', //////////////////react at 5173
+const cors = require("cors");
+
+const allowedOrigins = [
+  "https://chickencoop-app.up.railway.app",
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
-app.use(bodyParser.json());
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
