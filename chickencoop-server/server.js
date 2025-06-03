@@ -25,17 +25,12 @@ const SalesLog = require('./models/SalesLog');
 // Express app setup
 
 const allowedOrigins = [
+  'http://localhost:5173',
   "https://chickencoop-app.up.railway.app",
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: true, // Reflect request origin
   credentials: true,
 }));
 
